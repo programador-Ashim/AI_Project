@@ -1,0 +1,179 @@
+# AI Scribe
+
+AI Scribe is a Streamlit application that converts a clinical encounter transcript into a structured draft SOAP note using the Groq API.
+
+The generated note contains:
+
+- Subjective information
+- Objective findings
+- Assessment
+- Plan
+- Missing or uncertain information
+
+
+## Features
+
+- Generates structured SOAP notes from encounter transcripts
+- Separates patient-reported information from clinician-observed findings
+- Identifies important missing or uncertain details
+- Includes a sample transcript for testing
+- Allows users to edit generated SOAP-note sections in the browser
+- Keeps generated notes only in the current Streamlit session
+
+## Requirements
+
+- Python 3.9 or later
+- A [Groq API key](https://console.groq.com/keys)
+- Internet access while generating a note
+
+## Installation
+
+### 1. Download the project
+
+Download and extract the ZIP file, then open a terminal in the extracted project folder.
+
+If you are using Git instead, clone the repository and enter its directory:
+
+```bash
+git clone <repository-url>
+cd <project-folder>
+```
+
+### 2. Create a virtual environment
+
+On macOS or Linux:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+On Windows PowerShell:
+
+```powershell
+py -m venv .venv
+.venv\Scripts\Activate.ps1
+```
+
+### 3. Install the dependencies
+
+```bash
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+### 4. Configure the Groq API key
+
+Copy the example environment file:
+
+On macOS or Linux:
+
+```bash
+cp .env.example .env
+```
+
+On Windows PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Open `.env` and replace the placeholder with your API key:
+
+```env
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+Do not commit or share the `.env` file. It is already excluded by `.gitignore`.
+
+## Run the application
+
+With the virtual environment activated, run:
+
+```bash
+python -m streamlit run app.py
+```
+
+Streamlit should open the application automatically. If it does not, open the local address shown in the terminal, usually:
+
+```text
+http://localhost:8501
+```
+
+To stop the application, press `Ctrl+C` in the terminal.
+
+## How to use it
+
+1. Optionally select an encounter date and enter a session ID.
+2. Paste a clinical encounter transcript into the transcript field, or select **Load sample transcript** for a demonstration.
+3. Select **Generate SOAP Note**.
+4. Review every generated section carefully.
+5. Edit the draft as needed before using it anywhere else.
+
+The app currently uses the `openai/gpt-oss-120b` model through Groq.
+
+## Project structure
+
+```text
+.
+├── app.py             # Streamlit application
+├── requirements.txt   # Python dependencies
+├── .env.example       # Environment-variable template
+├── .gitignore         # Files excluded from Git
+└── README.md           # Project documentation
+```
+
+## Troubleshooting
+
+### `No module named streamlit`
+
+Activate the virtual environment and install the dependencies again:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+### `No module named python`
+
+Do not run `python -m python`. Use these commands instead:
+
+```bash
+python -m pip install -r requirements.txt
+python -m streamlit run app.py
+```
+
+### Groq authentication or API-key error
+
+Confirm that:
+
+- The file is named `.env`, not `.env.txt`.
+- `GROQ_API_KEY` is spelled exactly as shown.
+- The API key is valid and has no quotation marks or extra spaces.
+- The app was restarted after the `.env` file was changed.
+
+### `requirements.txt` not found
+
+Run the commands from the project directory—the folder containing `app.py` and `requirements.txt`.
+
+### The default port is already in use
+
+Run Streamlit on another port:
+
+```bash
+python -m streamlit run app.py --server.port 8502
+```
+
+### Rate-limit or temporary API error
+
+Wait briefly and try again. Also verify the usage limits associated with the Groq account.
+
+## Data and privacy
+
+- Transcript text is sent to the Groq API to generate a SOAP note.
+- This application does not intentionally save generated notes to a local database; the displayed result is session-only.
+- Application logs, hosting infrastructure, third-party APIs, or a modified deployment may process or retain data separately.
+- Use only fictional or properly de-identified data unless you have independently confirmed that the entire deployment is appropriate for the data involved.
+
+## License
+
+No license is currently included. Add a license before distributing or accepting contributions to the project.
